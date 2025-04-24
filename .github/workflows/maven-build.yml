@@ -7,12 +7,21 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v2
 
+            - name: Cache JDK installation
+              uses: actions/cache@v3
+              with:
+                path: |
+                  ~/.sdkman/candidates/java
+                  /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/
+                key: ${{ runner.os }}-jdk-17-${{ hashFiles('**/pom.xml') }}
+                restore-keys: |
+                  ${{ runner.os }}-jdk-17-
+
             - name: Set up JDK 17
               uses: actions/setup-java@v2
               with:
                 java-version: '17'
                 distribution: 'temurin'
-                cache: maven       
 
             - name: Cache Maven dependencies
               uses: actions/cache@v3
